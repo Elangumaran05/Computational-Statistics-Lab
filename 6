@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+
+data_1d = pd.Series([0.374540, 0.950714, 0.731994, 0.598658, 0.156019])
+data_2d = pd.DataFrame({
+    'A': [0.183405, 0.304242, 0.524756, 0.431945, 0.291229],
+    'B': [0.611853, 0.139494, 0.292145, 0.366362, 0.456070]
+})
+
+from seaborn import load_dataset
+planet_data = load_dataset('planets')
+
+print("1D Data Aggregation")
+print("Sum =", data_1d.sum())
+print("Mean =", data_1d.mean())
+print("Count =", data_1d.count())
+print("Minimum =", data_1d.min())
+print("Maximum =", data_1d.max())
+
+print("\n2D Data Aggregation")
+print("Sum (Columnwise):\n", data_2d.sum())
+print("Sum (Rowwise):\n", data_2d.sum(axis=1))
+print("Mean:\n", data_2d.mean())
+print("Count:\n", data_2d.shape)
+print("Minimum:\n", data_2d.min())
+print("Maximum:\n", data_2d.max())
+
+print("\nn-D Data Aggregation")
+grouped = planet_data.groupby(['method', 'orbital_period'])
+print("Grouped Data (first few rows):\n", grouped.size().head())
+print("Shape of the dataset:", planet_data.shape)
+print("Size of the dataset:", planet_data.size)
+stats = planet_data.groupby(['method', 'year']).agg(['mean', 'median', 'min', 'max'])
+print("Statistical values based on 'method' and 'year':\n", stats.head())
+std_dev = planet_data.groupby('method').std()
+print("Standard Deviation based on 'method':\n", std_dev.head())
